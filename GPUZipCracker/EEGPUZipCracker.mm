@@ -191,7 +191,7 @@
     totalPermutations = 0;
     for (NSUInteger wordLen = startingLen; wordLen <= _maxLen; wordLen++)
     {
-        if (wordLen == startingLen && startingLen != _minLen)
+        if (wordLen == startingLen && startingIndex != 0)
         {
             totalPermutations = pow(_charset.length, wordLen) - startingIndex;
         }
@@ -201,10 +201,11 @@
 
     startTime = [NSDate date];
     wordsTested = 0;
+    
+    index = startingIndex;
 
     for (currentLen = startingLen; currentLen <= _maxLen; currentLen++)
     {
-        index = 0;
         uint32_t step = 1024*4096*5;
         uint64_t totalPermutationsForLen = pow(_charset.length, currentLen);
         
@@ -244,6 +245,7 @@
 
         }
         printf("Completed all %d-length permutations.\n", currentLen);
+        index = 0;
     }
     
     stillRunning = NO;

@@ -38,7 +38,7 @@ int main(int argc, const char * argv[]) {
             printf("%d: %s\n", i++, [gpuName UTF8String]);
         }
         
-        if ([arguments booleanValueForSignature:helpSig]) {
+        if ([arguments booleanValueForSignature:helpSig] || [arguments firstObjectForSignature: inFileSig] == nil) {
             
             printf(" -i --input-file: ZIP file to process.\n");
             
