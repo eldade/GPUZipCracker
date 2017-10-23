@@ -28,3 +28,9 @@ Real-world performance seems to be at least 1-2 orders of magnitude faster than 
 For example, on a 2013 Mac Pro, the program was able to test approximately 800 million permutations per second. The same machine was only able to achieve approximately 28 million permutations per second when running on all 8 cores of that same system.
 
 On a 2017 15" MacBook Pro, the program was able to test approximately 350 million permutations per second (running concurrently on both the Intel *and* AMD GPUs).
+
+## Trying it Out
+To try it out, download the code, build the program using Xcode, and launch it with the provided test file:
+`./GPUZipCracker -i test.zip -c abcdefghijklmnopqrstuvwxyz`
+
+The program actually supports several command-line options including selecting which GPU to use, specifying a character set, and even starting from a specific word if 'lower' words have already been eliminated (meaning, words lower in the alphabet for the specified character set).
