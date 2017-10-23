@@ -49,25 +49,30 @@ union decodedUnion
 
 void inline decrypt_and_check(thread uint3 key, decodedUnion decoded, constant char *data, device Params *params, uint position)
 {
-    // Decrypt the bytes:
+    // Decrypt the 12 salt bytes plus the 12th verification byte:
     
     DECRYPT_4_BYTES(0)
     DECRYPT_4_BYTES(4)
     DECRYPT_4_BYTES(8)
-    DECRYPT_4_BYTES(12)
     
-    // Check if we have a match:
+    // Check if we have a potential match:
     
-    if ((decoded.bytes[11] == params->bytes_to_match[0]) &&
-        (decoded.bytes[12] == params->bytes_to_match[1]) &&
-        (decoded.bytes[13] == params->bytes_to_match[2]) &&
-        (decoded.bytes[14] == params->bytes_to_match[3]) &&
-        (decoded.bytes[15] == params->bytes_to_match[4]))
+    if (decoded.bytes[11] == params->bytes_to_match[0])
     {
-        // If we do, increment an atomic counter and store our current position in the array.
-        uint32_t last_count = atomic_fetch_add_explicit(&params->match_count, 1, memory_order_relaxed);
+        // The one-byte check passed, do we decrypt the next four bytes and see if they match:
+        DECRYPT_4_BYTES(12)
         
-        params->match_positions[last_count] = position;
+        if ((decoded.bytes[12] == params->bytes_to_match[1]) &&
+            (decoded.bytes[13] == params->bytes_to_match[2]) &&
+            (decoded.bytes[14] == params->bytes_to_match[3]) &&
+            (decoded.bytes[15] == params->bytes_to_match[4]))
+        {
+            // If we do, increment an atomic counter and store our current position in the array.
+            uint32_t last_count = atomic_fetch_add_explicit(&params->match_count, 1, memory_order_relaxed);
+            
+            params->match_positions[last_count] = position;
+        }
+
     }
 }
 

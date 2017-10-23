@@ -17,6 +17,7 @@
 		51CFDED01F9D33AE0004C59B /* EEGPUZipCracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 51CFDECF1F9D33AE0004C59B /* EEGPUZipCracker.mm */; };
 		51CFDED31F9D474C0004C59B /* cpuDecryptEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51CFDED11F9D474C0004C59B /* cpuDecryptEngine.cpp */; };
 		51CFDED61F9D4F850004C59B /* EEZipParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = 51CFDED51F9D4F850004C59B /* EEZipParser.mm */; };
+		51CFDED91F9E802A0004C59B /* test.zip in CopyFiles */ = {isa = PBXBuildFile; fileRef = 51CFDED81F9E80030004C59B /* test.zip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,12 +68,13 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		51BD1F221F8D784100981677 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 6;
 			files = (
+				51CFDED91F9E802A0004C59B /* test.zip in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -92,6 +94,7 @@
 		51CFDED41F9D4F850004C59B /* EEZipParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EEZipParser.h; sourceTree = "<group>"; };
 		51CFDED51F9D4F850004C59B /* EEZipParser.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EEZipParser.mm; sourceTree = "<group>"; };
 		51CFDED71F9DB5780004C59B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		51CFDED81F9E80030004C59B /* test.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = test.zip; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,7 @@
 				51CFDED41F9D4F850004C59B /* EEZipParser.h */,
 				51CFDED51F9D4F850004C59B /* EEZipParser.mm */,
 				51CFDED21F9D474C0004C59B /* cpuDecryptEngine.hpp */,
+				51CFDED81F9E80030004C59B /* test.zip */,
 				51CFDED11F9D474C0004C59B /* cpuDecryptEngine.cpp */,
 				51BD1F561F8E829D00981677 /* zip_bruteforcer.metal */,
 				511BAA961F9AD992001A0C83 /* crc32_table.metal */,

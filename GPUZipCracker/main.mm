@@ -16,10 +16,10 @@ int main(int argc, const char * argv[]) {
         *helpSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-h --help]"],
         *inFileSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-i --input-file]={1,}"],
         *charsetSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-c --charset]={1}"],
-        *minWordLengthSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-min --min-word-length]={1}"],
+        *minWordLengthSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-m --min-word-length]={1}"],
         *startingWordSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-s --starting-word]={1}"],
         *gpuSelectionSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-g --gpu-index]={1}"],
-        *maxWordLengthSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-m --max-word-length]={1}"];
+        *maxWordLengthSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-x --max-word-length]={1}"];
         
 
 
@@ -44,13 +44,13 @@ int main(int argc, const char * argv[]) {
             
             printf(" -c --charset: Sets the character set used by the GPU to crack the password. Please note that the order of the characters will determine the order used by the program.\n");
             
-            printf(" -min --min-word-length: Sets the minimum word length to try as password. The minimum currently supported is 5.\n");
+            printf(" -m --min-word-length: Sets the minimum word length to try as password. The minimum currently supported is 5.\n");
             
-            printf(" -max --max-word-length: Sets the maximum word length to try as password. The minimum currently supported is 10.\n");
+            printf(" -x --max-word-length: Sets the maximum word length to try as password. The maximum currently supported is 10.\n");
             
             printf(" -s --starting-word: Sets the starting word for the search, otherwise program will start from first word ('aaaa', etc.)\n");
 
-            printf(" -gpu --gpu-index: Select a GPU to use. If not specified, all available GPUs will be used concurrently.\n");
+            printf(" -g --gpu-index: Select a GPU to use. If not specified, all available GPUs will be used concurrently.\n");
             
         } else {
             EEGPUZipCracker *cracker = [[EEGPUZipCracker alloc] initWithFilename: [[arguments firstObjectForSignature:inFileSig] description]];

@@ -67,28 +67,8 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-f &quot;encrypted_pngs.zip&quot; -w words"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i OpenUdocs.ZIP"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-f abcdefgh.zip"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-i test.zip -c abcdefghijklmnopqrstuvwxyz -gpu 1"
+            argument = "-i test.zip -c abcdefghijklmnopqrstuvwxyz -g 1 -m 8"
             isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "-f &quot;OpenUdocs.ZIP&quot; "
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "5 6 1234567890"
-            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>
