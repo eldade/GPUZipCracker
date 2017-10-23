@@ -33,4 +33,6 @@ On a 2017 15" MacBook Pro, the program was able to test approximately 350 millio
 To try it out, download the code, build the program using Xcode, and launch it with the provided test file:
 `./GPUZipCracker -i test.zip -c abcdefghijklmnopqrstuvwxyz`
 
-The program actually supports several command-line options including selecting which GPU to use, specifying a character set, and even starting from a specific word if 'lower' words have already been eliminated (meaning, words lower in the alphabet for the specified character set).
+Runtime using these settings and the provided file should be anywhere from 10-30 minutes, depending on your system's GPU. Note that the program will likely estimate several days of runtime remaining because it is programmed to try everything up to 10 character passwords, which can take a while.
+
+The program actually supports several command-line options including selecting which GPU to use, specifying a character set, minimum and maximum word lengths, and even starting from a specific word if 'lower' words have already been eliminated (meaning, words lower in the alphabet for the specified character set).
