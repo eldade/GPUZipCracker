@@ -15,8 +15,8 @@ This means that for each bruteforced iteration we need to do the following:
 1. Generate a password based on the current iterator value and a characterset (uppercase, lowercase, symbols, etc.)
 2. Hash that password into a 96-bit decryption key
 3. Decrypt the 11 pseudo-random salt bytes traditional ZIP encryption uses to ensure randomness, plus the 12th byte which is used as a quick password check
-4. Decrypt the first 4 total bytes of the encrypted files
-5. Now we have a total of 5 decrypted bytes we can compare against 5 known plaintext bytes.
+4. Decrypt the first 4 bytes of the encrypted files
+5. Now we have a total of 5 decrypted bytes we can compare against known plaintext bytes.
 6. If that test passes, the GPU returns the index of the password that generated it, and we do an actual full decryption to verify the password is correct (because in some cases we will run **trillions** of tests, this might actually happen numerous times during a lenghty run).
 
 > Note: The current version **only** supports decrypting 'stored' ZIP archives within ZIP archives (meaning a ZIP archive stored -- not compressed -- within another ZIP archive). It should be very easy to add additional file formats by setting up a table that uses the extension of the file within the ZIP archive, and having some hardcoded plaintext header bytes for each file format. How many known bytes of header do we need? Since we already have one known plaintext byte from the ZIP encryption header, I'd say the minimum is probably 2-3 bytes.
