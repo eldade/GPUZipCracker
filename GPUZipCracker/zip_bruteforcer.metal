@@ -59,7 +59,7 @@ void inline decrypt_and_check(thread uint3 key, decodedUnion decoded, constant c
     
     if (decoded.bytes[11] == params->bytes_to_match[0])
     {
-        // The one-byte check passed, do we decrypt the next four bytes and see if they match:
+        // The one-byte check passed, we decrypt the next four bytes and see if they match:
         DECRYPT_4_BYTES(12)
         
         if ((decoded.bytes[12] == params->bytes_to_match[1]) &&

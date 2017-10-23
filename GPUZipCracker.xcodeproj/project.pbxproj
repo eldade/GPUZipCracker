@@ -93,7 +93,7 @@
 		51CFDED41F9D4F850004C59B /* EEZipParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EEZipParser.h; sourceTree = "<group>"; };
 		51CFDED51F9D4F850004C59B /* EEZipParser.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EEZipParser.mm; sourceTree = "<group>"; };
 		51CFDED71F9DB5780004C59B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
-		51CFDED81F9E80030004C59B /* test.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = test.zip; sourceTree = SOURCE_ROOT; };
+		51CFDED81F9E80030004C59B /* test.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = test.zip; path = "GPUZipCracker/Test file/test.zip"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,12 +137,12 @@
 				51CFDED41F9D4F850004C59B /* EEZipParser.h */,
 				51CFDED51F9D4F850004C59B /* EEZipParser.mm */,
 				51CFDED21F9D474C0004C59B /* cpuDecryptEngine.hpp */,
-				51CFDED81F9E80030004C59B /* test.zip */,
 				51CFDED11F9D474C0004C59B /* cpuDecryptEngine.cpp */,
 				51BD1F561F8E829D00981677 /* zip_bruteforcer.metal */,
 				511BAA961F9AD992001A0C83 /* crc32_table.metal */,
 				51BD1F271F8D784100981677 /* main.mm */,
 				51CFDED71F9DB5780004C59B /* README.md */,
+				51CFDEE41F9EA3390004C59B /* Test file */,
 			);
 			path = GPUZipCracker;
 			sourceTree = "<group>";
@@ -166,6 +166,14 @@
 				51CFDEC31F9C73C80004C59B /* ArgumentParser-Dynamic Tests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		51CFDEE41F9EA3390004C59B /* Test file */ = {
+			isa = PBXGroup;
+			children = (
+				51CFDED81F9E80030004C59B /* test.zip */,
+			);
+			path = "Test file";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
