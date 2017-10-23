@@ -252,7 +252,7 @@
     return found;
 }
 
-- (void) determine_chosen_one
+- (bool) locate_appropriate_file
 {
     filei.seekg(lfh.start_byte, std::ios::beg);
     if ( ecd.total_entries > 1 ) {
@@ -263,11 +263,21 @@
         [self read_local_file_header: filei lfh: &lfh several:false];
     }
     
-    //    size_t n = 10 + strlen(lfh.file_name) + functions_ng::format_number(lfh.good_length).length();
-    //    char* str = new char[n + 1];
-    //    snprintf(str, n, "%s (%s bytes)", this->lfh.file_name, functions_ng::format_number(this->lfh.good_length).c_str());
+    chosen_file = [NSString stringWithUTF8String: lfh.file_name];
     
-    chosen_file = lfh.file_name;
+    if (lfh.is_encrypted == false || lfh.strong_encryption == true)
+    {
+        printf("Selected file in archive (%s), isn't encrypted or is encrypted using strong encryption.", lfh.file_name);
+        return false;
+    }
+    
+    if ([[chosen_file uppercaseString] hasSuffix: @".ZIP"] == NO)
+    {
+        printf("Selected file in archive (%s), doesn't appear to be a .ZIP archive. For now this program only supports decryption of ZIP archives stored within ZIP files...", lfh.file_name);
+        return false;
+    }
+    
+    return true;
 }
 
 
@@ -356,11 +366,14 @@
     
     [self init_lfh];
     
-    [self determine_chosen_one];
+    if ([self locate_appropriate_file] == NO)
+    {
+        return false;
+    }
     
     if (lfh.compression_method != 0)
     {
-        NSLog(@"Sorry, this program doesn't current support anything other than stored ZIP files within ZIP file.");
+        NSLog(@"ERROR: This program only supports stored ZIP files, no compression methods are supported.");
         return false;
     }
     
@@ -372,12 +385,14 @@
     
     // Read encrypted data
     filei.seekg(lfh.start_byte, std::ios::beg);
-    filei.read(encryption_header, 12);
+    
+    _encryption_header = (char *) malloc(12);
+    filei.read(_encryption_header, 12);
     
     size_t len = lfh.good_length;
     
-    encrypted_data = (char *) malloc(len);
-    filei.read(encrypted_data, len);
+    _encrypted_data = (char *) malloc(len);
+    filei.read(_encrypted_data, len);
     filei.close();
     
     return true;
@@ -385,7 +400,37 @@
 
 - (instancetype) initWithFilename: (NSString *) filename
 {
+    self = [super init];
+    filei = std::ifstream([filename UTF8String], std::ios::in | std::ios::binary);
+    bool result = [self initializeZipFile];
     
+    if (result == false)
+        return nil;
+    
+    return self;
+}
+
+- (uint32_t) good_crc_32
+{
+    return lfh.good_crc_32;
+}
+
+- (uint16_t) last_mod_file_time
+{
+    return lfh.last_mod_file_time;
+}
+
+
+- (uint32_t) good_length
+{
+    return lfh.good_length;
+}
+- (bool) isValid
+{
+    if (_encryption_header != nil && _encrypted_data != nil)
+        return true;
+    else
+        return false;
 }
 
 @end

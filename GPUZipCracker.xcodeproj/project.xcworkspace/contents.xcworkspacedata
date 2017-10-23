@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:zipcracker.xcodeproj">
+      location = "self:/Users/eldade/Library/Mobile Documents/com~apple~CloudDocs/Personal Dev/GPUZipCracker/GPUZipCracker.xcodeproj">
    </FileRef>
 </Workspace>

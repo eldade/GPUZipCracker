@@ -6,7 +6,7 @@
 //  Copyright © 2017 Eldad Eilam. All rights reserved.
 //
 
-#include "crc32.hpp"
+#include "cpuDecryptEngine.hpp"
 #include <stdlib.h>
 /*!
  * \var pcrc_32_tab

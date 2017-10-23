@@ -7,17 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcer.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcer.m */; };
+		511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m */; };
 		511BAA971F9AD992001A0C83 /* crc32_table.metal in Sources */ = {isa = PBXBuildFile; fileRef = 511BAA961F9AD992001A0C83 /* crc32_table.metal */; };
-		513E0D431F91CC3E00876228 /* cracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F331F8D78BD00981677 /* cracker.mm */; };
-		513E0D4B1F932D9200876228 /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F391F8D78BD00981677 /* main.cc */; };
-		51BD1F4B1F8DD21D00981677 /* functions.cc in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F3B1F8D78BD00981677 /* functions.cc */; };
-		51BD1F4C1F8DD21D00981677 /* gui.cc in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F3C1F8D78BD00981677 /* gui.cc */; };
-		51BD1F4E1F8DD21D00981677 /* puff.cc in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F3A1F8D78BD00981677 /* puff.cc */; };
-		51BD1F4F1F8DD21D00981677 /* read.cc in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F371F8D78BD00981677 /* read.cc */; };
 		51BD1F551F8E825400981677 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51BD1F541F8E825400981677 /* Metal.framework */; };
 		51BD1F571F8E829D00981677 /* zip_bruteforcer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F561F8E829D00981677 /* zip_bruteforcer.metal */; };
 		51CFDEC41F9C73EB0004C59B /* libArgumentParser-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CFDEC11F9C73C80004C59B /* libArgumentParser-Static.a */; };
+		51CFDECC1F9D22570004C59B /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F271F8D784100981677 /* main.mm */; };
+		51CFDECD1F9D22730004C59B /* ArgumentParser-Dynamic.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51CFDEBF1F9C73C80004C59B /* ArgumentParser-Dynamic.dylib */; };
+		51CFDED01F9D33AE0004C59B /* EEGPUZipCracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 51CFDECF1F9D33AE0004C59B /* EEGPUZipCracker.mm */; };
+		51CFDED31F9D474C0004C59B /* cpuDecryptEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51CFDED11F9D474C0004C59B /* cpuDecryptEngine.cpp */; };
+		51CFDED61F9D4F850004C59B /* EEZipParser.mm in Sources */ = {isa = PBXBuildFile; fileRef = 51CFDED51F9D4F850004C59B /* EEZipParser.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,27 +77,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		511BAA7B1F985191001A0C83 /* EEGPUZipBruteforcer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EEGPUZipBruteforcer.h; sourceTree = "<group>"; };
-		511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EEGPUZipBruteforcer.m; sourceTree = "<group>"; };
+		511BAA7B1F985191001A0C83 /* EEGPUZipBruteforcerEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EEGPUZipBruteforcerEngine.h; sourceTree = "<group>"; };
+		511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EEGPUZipBruteforcerEngine.m; sourceTree = "<group>"; };
 		511BAA961F9AD992001A0C83 /* crc32_table.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = crc32_table.metal; sourceTree = "<group>"; };
-		51BD1F241F8D784100981677 /* zipcracker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = zipcracker; sourceTree = BUILT_PRODUCTS_DIR; };
-		51BD1F271F8D784100981677 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		51BD1F311F8D78BD00981677 /* functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = functions.h; path = shared/functions.h; sourceTree = "<group>"; };
-		51BD1F321F8D78BD00981677 /* read.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = read.h; path = zip/read.h; sourceTree = "<group>"; };
-		51BD1F331F8D78BD00981677 /* cracker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = cracker.mm; path = shared/cracker.mm; sourceTree = "<group>"; };
-		51BD1F351F8D78BD00981677 /* cracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cracker.h; path = shared/cracker.h; sourceTree = "<group>"; };
-		51BD1F371F8D78BD00981677 /* read.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = read.cc; path = zip/read.cc; sourceTree = "<group>"; };
-		51BD1F381F8D78BD00981677 /* puff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = puff.h; path = zip/puff.h; sourceTree = "<group>"; };
-		51BD1F391F8D78BD00981677 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
-		51BD1F3A1F8D78BD00981677 /* puff.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = puff.cc; path = zip/puff.cc; sourceTree = "<group>"; };
-		51BD1F3B1F8D78BD00981677 /* functions.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = functions.cc; path = shared/functions.cc; sourceTree = "<group>"; };
-		51BD1F3C1F8D78BD00981677 /* gui.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gui.cc; path = shared/gui.cc; sourceTree = "<group>"; };
-		51BD1F3D1F8D78BD00981677 /* gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gui.h; path = shared/gui.h; sourceTree = "<group>"; };
-		51BD1F3E1F8D78BD00981677 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
-		51BD1F3F1F8D78BD00981677 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = zip/crypt.h; sourceTree = "<group>"; };
+		51BD1F241F8D784100981677 /* GPUZipCracker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GPUZipCracker; sourceTree = BUILT_PRODUCTS_DIR; };
+		51BD1F271F8D784100981677 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		51BD1F541F8E825400981677 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		51BD1F561F8E829D00981677 /* zip_bruteforcer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = zip_bruteforcer.metal; sourceTree = "<group>"; };
 		51CFDEAF1F9C73C80004C59B /* ArgumentParser.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ArgumentParser.xcodeproj; path = ArgumentParser/ArgumentParser.xcodeproj; sourceTree = "<group>"; };
+		51CFDECE1F9D33AE0004C59B /* EEGPUZipCracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EEGPUZipCracker.h; sourceTree = "<group>"; };
+		51CFDECF1F9D33AE0004C59B /* EEGPUZipCracker.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EEGPUZipCracker.mm; sourceTree = "<group>"; };
+		51CFDED11F9D474C0004C59B /* cpuDecryptEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpuDecryptEngine.cpp; sourceTree = "<group>"; };
+		51CFDED21F9D474C0004C59B /* cpuDecryptEngine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cpuDecryptEngine.hpp; sourceTree = "<group>"; };
+		51CFDED41F9D4F850004C59B /* EEZipParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EEZipParser.h; sourceTree = "<group>"; };
+		51CFDED51F9D4F850004C59B /* EEZipParser.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EEZipParser.mm; sourceTree = "<group>"; };
+		51CFDED71F9DB5780004C59B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51CFDECD1F9D22730004C59B /* ArgumentParser-Dynamic.dylib in Frameworks */,
 				51CFDEC41F9C73EB0004C59B /* libArgumentParser-Static.a in Frameworks */,
 				51BD1F551F8E825400981677 /* Metal.framework in Frameworks */,
 			);
@@ -118,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				51CFDEAF1F9C73C80004C59B /* ArgumentParser.xcodeproj */,
-				51BD1F261F8D784100981677 /* zipcracker */,
+				51BD1F261F8D784100981677 /* GPUZipCracker */,
 				51BD1F251F8D784100981677 /* Products */,
 				51BD1F531F8E825300981677 /* Frameworks */,
 			);
@@ -127,34 +121,28 @@
 		51BD1F251F8D784100981677 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				51BD1F241F8D784100981677 /* zipcracker */,
+				51BD1F241F8D784100981677 /* GPUZipCracker */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		51BD1F261F8D784100981677 /* zipcracker */ = {
+		51BD1F261F8D784100981677 /* GPUZipCracker */ = {
 			isa = PBXGroup;
 			children = (
-				511BAA7B1F985191001A0C83 /* EEGPUZipBruteforcer.h */,
-				511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcer.m */,
-				51BD1F331F8D78BD00981677 /* cracker.mm */,
-				51BD1F351F8D78BD00981677 /* cracker.h */,
+				511BAA7B1F985191001A0C83 /* EEGPUZipBruteforcerEngine.h */,
+				511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m */,
+				51CFDECE1F9D33AE0004C59B /* EEGPUZipCracker.h */,
+				51CFDECF1F9D33AE0004C59B /* EEGPUZipCracker.mm */,
+				51CFDED41F9D4F850004C59B /* EEZipParser.h */,
+				51CFDED51F9D4F850004C59B /* EEZipParser.mm */,
+				51CFDED21F9D474C0004C59B /* cpuDecryptEngine.hpp */,
+				51CFDED11F9D474C0004C59B /* cpuDecryptEngine.cpp */,
 				51BD1F561F8E829D00981677 /* zip_bruteforcer.metal */,
 				511BAA961F9AD992001A0C83 /* crc32_table.metal */,
-				51BD1F3F1F8D78BD00981677 /* crypt.h */,
-				51BD1F3B1F8D78BD00981677 /* functions.cc */,
-				51BD1F311F8D78BD00981677 /* functions.h */,
-				51BD1F3C1F8D78BD00981677 /* gui.cc */,
-				51BD1F3D1F8D78BD00981677 /* gui.h */,
-				51BD1F391F8D78BD00981677 /* main.cc */,
-				51BD1F3E1F8D78BD00981677 /* main.h */,
-				51BD1F3A1F8D78BD00981677 /* puff.cc */,
-				51BD1F381F8D78BD00981677 /* puff.h */,
-				51BD1F371F8D78BD00981677 /* read.cc */,
-				51BD1F321F8D78BD00981677 /* read.h */,
-				51BD1F271F8D784100981677 /* main.m */,
+				51BD1F271F8D784100981677 /* main.mm */,
+				51CFDED71F9DB5780004C59B /* README.md */,
 			);
-			path = zipcracker;
+			path = GPUZipCracker;
 			sourceTree = "<group>";
 		};
 		51BD1F531F8E825300981677 /* Frameworks */ = {
@@ -181,9 +169,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		51BD1F231F8D784100981677 /* zipcracker */ = {
+		51BD1F231F8D784100981677 /* GPUZipCracker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 51BD1F2B1F8D784100981677 /* Build configuration list for PBXNativeTarget "zipcracker" */;
+			buildConfigurationList = 51BD1F2B1F8D784100981677 /* Build configuration list for PBXNativeTarget "GPUZipCracker" */;
 			buildPhases = (
 				51BD1F201F8D784100981677 /* Sources */,
 				51BD1F211F8D784100981677 /* Frameworks */,
@@ -193,9 +181,9 @@
 			);
 			dependencies = (
 			);
-			name = zipcracker;
+			name = GPUZipCracker;
 			productName = zipcracker;
-			productReference = 51BD1F241F8D784100981677 /* zipcracker */;
+			productReference = 51BD1F241F8D784100981677 /* GPUZipCracker */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -213,7 +201,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 51BD1F1F1F8D784100981677 /* Build configuration list for PBXProject "zipcracker" */;
+			buildConfigurationList = 51BD1F1F1F8D784100981677 /* Build configuration list for PBXProject "GPUZipCracker" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -231,7 +219,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				51BD1F231F8D784100981677 /* zipcracker */,
+				51BD1F231F8D784100981677 /* GPUZipCracker */,
 			);
 		};
 /* End PBXProject section */
@@ -286,15 +274,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51BD1F4E1F8DD21D00981677 /* puff.cc in Sources */,
-				51BD1F4B1F8DD21D00981677 /* functions.cc in Sources */,
-				51BD1F4F1F8DD21D00981677 /* read.cc in Sources */,
+				51CFDED01F9D33AE0004C59B /* EEGPUZipCracker.mm in Sources */,
+				51CFDECC1F9D22570004C59B /* main.mm in Sources */,
 				51BD1F571F8E829D00981677 /* zip_bruteforcer.metal in Sources */,
-				51BD1F4C1F8DD21D00981677 /* gui.cc in Sources */,
-				511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcer.m in Sources */,
-				513E0D4B1F932D9200876228 /* main.cc in Sources */,
+				511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m in Sources */,
+				51CFDED31F9D474C0004C59B /* cpuDecryptEngine.cpp in Sources */,
+				51CFDED61F9D4F850004C59B /* EEZipParser.mm in Sources */,
 				511BAA971F9AD992001A0C83 /* crc32_table.metal in Sources */,
-				513E0D431F91CC3E00876228 /* cracker.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,7 +399,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/ArgumentParser/ArgumentParser";
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/ArgumentParser/ArgumentParser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -422,7 +410,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/ArgumentParser/ArgumentParser";
 				GCC_OPTIMIZATION_LEVEL = s;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/ArgumentParser/ArgumentParser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -430,7 +420,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		51BD1F1F1F8D784100981677 /* Build configuration list for PBXProject "zipcracker" */ = {
+		51BD1F1F1F8D784100981677 /* Build configuration list for PBXProject "GPUZipCracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				51BD1F291F8D784100981677 /* Debug */,
@@ -439,7 +429,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		51BD1F2B1F8D784100981677 /* Build configuration list for PBXNativeTarget "zipcracker" */ = {
+		51BD1F2B1F8D784100981677 /* Build configuration list for PBXNativeTarget "GPUZipCracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				51BD1F2C1F8D784100981677 /* Debug */,
