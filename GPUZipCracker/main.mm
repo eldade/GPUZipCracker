@@ -77,6 +77,11 @@ int main(int argc, const char * argv[]) {
             {
                 cracker.startingWord = [arguments firstObjectForSignature: startingWordSig];
                 printf ("Starting from word: '%s'\n", [cracker.startingWord UTF8String]);
+                
+                cracker.minLen = cracker.startingWord.length;
+                
+                if (cracker.maxLen < cracker.minLen)
+                    cracker.maxLen = cracker.minLen;
             }
             
             if ([arguments firstObjectForSignature: gpuSelectionSig] != nil)
