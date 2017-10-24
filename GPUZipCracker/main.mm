@@ -19,11 +19,10 @@ int main(int argc, const char * argv[]) {
         *minWordLengthSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-m --min-word-length]={1}"],
         *startingWordSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-s --starting-word]={1}"],
         *gpuSelectionSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-g --gpu-index]={1}"],
+        *gpuPipelineDepthSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-p  --gpu-pipeline-depth]={1}"],
         *maxWordLengthSig = [XPMArgumentSignature argumentSignatureWithFormat:@"[-x --max-word-length]={1}"];
-        
 
-
-        NSArray *signatures = @[helpSig, inFileSig, charsetSig, minWordLengthSig, maxWordLengthSig, startingWordSig, gpuSelectionSig];
+        NSArray *signatures = @[helpSig, inFileSig, charsetSig, minWordLengthSig, maxWordLengthSig, gpuPipelineDepthSig, startingWordSig, gpuSelectionSig];
         
         XPMArgumentPackage *arguments = [[NSProcessInfo processInfo] xpmargs_parseArgumentsWithSignatures:signatures];
         
@@ -50,8 +49,10 @@ int main(int argc, const char * argv[]) {
             
             printf(" -s --starting-word: Sets the starting word for the search, otherwise program will start from first word ('aaaa', etc.)\n");
 
-            printf(" -g --gpu-index: Select a GPU to use. If not specified, all available GPUs will be used concurrently.\n");
-            
+            printf(" -g  --gpu-index: Select a GPU to use. If not specified, all available GPUs will be used concurrently.\n");
+
+            printf(" -p  --gpu-pipeline-depth: Specify the maximum number of GPU commands to issue without waiting for completion. A higher number will generally run somewhat faster, but might adversely affect system performance (maximum is 64).\n");
+
         } else {
             EEGPUZipCracker *cracker = [[EEGPUZipCracker alloc] initWithFilename: [[arguments firstObjectForSignature:inFileSig] description]];
             
@@ -70,6 +71,12 @@ int main(int argc, const char * argv[]) {
             
             if (cracker.charset == nil)
                 cracker.charset = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*-";
+            
+            if ([arguments firstObjectForSignature: gpuPipelineDepthSig] != nil)
+            {
+                cracker.GPUCommandPipelineDepth = MAX(MIN(64, [[arguments firstObjectForSignature: gpuPipelineDepthSig] intValue]), 1);
+                printf("Set GPU pipeline depth to %d commands.\n", cracker.GPUCommandPipelineDepth);
+            }
             
             printf("Using charset: %s\n", [cracker.charset UTF8String]);
             

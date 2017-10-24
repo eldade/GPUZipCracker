@@ -70,18 +70,18 @@
 {
     NSMutableArray <id <MTLCommandBuffer>> *commandBuffers = [NSMutableArray array];
     
-    assert(count % 5 == 0);
+    assert(count % _commandPipelineDepth == 0);
     
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < _commandPipelineDepth; i++)
     {
         Params inputParams = params;
         inputParams.base_value = startingIndex;
         
         id <MTLBuffer> paramBuffer = [_device newBufferWithBytes:&inputParams length:sizeof(inputParams) options: MTLResourceStorageModeManaged];
          
-        [commandBuffers addObject: [self processPasswordPermutationsWorker: count / 5 paramBuffer: paramBuffer completion:completion]];
+        [commandBuffers addObject: [self processPasswordPermutationsWorker: count / _commandPipelineDepth paramBuffer: paramBuffer completion:completion]];
         
-        startingIndex += count / 5;
+        startingIndex += count / _commandPipelineDepth;
     }
     
     [commandBuffers[0] waitUntilCompleted];

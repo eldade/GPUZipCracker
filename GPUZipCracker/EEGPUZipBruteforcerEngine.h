@@ -56,6 +56,8 @@ typedef struct Params
 
 @property uint wordLen;
 
+@property int commandPipelineDepth;
+
 - (instancetype) initWithDevice: (id <MTLDevice>) device;
 - (void) processPasswordPermutations: (uint32_t) count startingIndex: (uint64_t) startingIndex completion: (ZipBruteForcerCompletionBlock) completion;
 

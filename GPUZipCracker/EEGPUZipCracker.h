@@ -33,6 +33,8 @@
 @property int maxLen;
 @property NSString *startingWord;
 
+@property int GPUCommandPipelineDepth;
+
 @property int selectedGPU;
 
 - (instancetype) initWithFilename: (NSString *) filename;

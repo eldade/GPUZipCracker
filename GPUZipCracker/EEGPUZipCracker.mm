@@ -178,6 +178,8 @@
         
         [bruteForcers[i] setEncryptedData: (u_char *) &inputBuffer length: 16];
         
+        bruteForcers[i].commandPipelineDepth = _GPUCommandPipelineDepth;
+        
         i++;
     }
     
@@ -206,7 +208,7 @@
 
     for (currentLen = startingLen; currentLen <= _maxLen; currentLen++)
     {
-        uint32_t step = 1024*4096*5;
+        uint32_t step = 1024*1024*bruteForcers[0].commandPipelineDepth;
         uint64_t totalPermutationsForLen = pow(_charset.length, currentLen);
         
         for (EEGPUZipBruteforcerEngine *bruteForcer in bruteForcers)
@@ -256,6 +258,8 @@
 - (instancetype) initWithFilename: (NSString *) filename
 {
     self = [super init];
+    _GPUCommandPipelineDepth = 5;
+    
     zipParser = [[EEZipParser alloc] initWithFilename: filename];
     if ([zipParser isValid] == NO)
         return nil;
