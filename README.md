@@ -29,17 +29,20 @@ This means that for each bruteforcing iteration we need to do the following:
 The program uses a Metal-API based compute shader to bruteforce the password. It is set up to simultaneously utilize all available GPUs on a given system, but you can pick a single GPU from the command line if you wish.
 Real-world performance seems to be at least 1-2 orders of magnitude faster than what you can expect with a nice Intel CPU. I've tested this on several Macs and performance was very promising.
 
-For example, on a 2013 Mac Pro, the program was able to test approximately 800 million permutations per second. The same machine was only able to achieve approximately 28 million permutations per second when running on all 8 cores of that same system.
+For example, on a 2013 Mac Pro, the program was able to test approximately 920 million permutations per second. The same machine was only able to achieve approximately 28 million permutations per second when running on all 8 cores of that same system.
 
 On a 2017 15" MacBook Pro, the program was able to test approximately 350 million permutations per second (running concurrently on both the Intel *and* AMD GPUs).
 
-## Trying it Out
+## Usage
 To try it out, download the code, build the program using Xcode, and launch it with the provided test file:
 `./GPUZipCracker -i test.zip -c abcdefghijklmnopqrstuvwxyz`
 
 Runtime using these settings and the provided file should be anywhere from 10-30 minutes, depending on your system's GPU. Note that the program will likely estimate several days of runtime remaining because it is programmed to try everything up to 10 character passwords, which can take a while.
 
 The program actually supports several command-line options including selecting which GPU to use, specifying a character set, minimum and maximum word lengths, and even starting from a specific word if 'lower' words have already been eliminated (meaning, words lower in the alphabet for the specified character set).
+
+## Alternatives
+This is not intended as a professional password cracking tool by any means. It is a proof of concept I developed while learning the Metal API. If you're looking for a high-performance GPU-accelerated password bruteforcing tool, take a look at [hashcat](https://github.com/hashcat/hashcat).
 
 ## Credits
 Portions of this code were based on [**BoboTiG/cracker-ng**](https://github.com/BoboTiG/cracker-ng), which is an excellent resource for ZIP cracking/bruteforcing. That program is entirely CPU-based and does not seem to utilize any kind of plaintext trickery as far as I can tell, therefore it is several orders of magnitude slower than GPUZipCracker, but is is far more flexible in the types of archives it is able to handle.
