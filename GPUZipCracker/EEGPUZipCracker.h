@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "EEZipParser.h"
 #import "EEGPUZipBruteforcerEngine.h"
+#include <atomic>
 
 @interface EEGPUZipCracker : NSObject
 {
@@ -19,11 +20,15 @@
     id <MTLDevice> selectedDevice;
     
     NSMutableArray <EEGPUZipBruteforcerEngine *> *bruteForcers;
-    uint64_t index;
+    
+    std::atomic<uint64_t> index;
+    
     NSDate *startTime;
     uint64_t wordsTested;
-    int currentLen;
     uint64_t totalPermutations;
+    uint64_t totalPermutationsForLen;
+    
+    uint32_t currentWordLen;
     
     BOOL stillRunning;
 }

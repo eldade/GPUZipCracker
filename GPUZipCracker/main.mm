@@ -45,7 +45,7 @@ int main(int argc, const char * argv[]) {
             
             printf(" -m --min-word-length: Sets the minimum word length to try as password. The minimum currently supported is 5.\n");
             
-            printf(" -x --max-word-length: Sets the maximum word length to try as password. The maximum currently supported is 10.\n");
+            printf(" -x --max-word-length: Sets the maximum word length to try as password. The maximum currently supported is 15.\n");
             
             printf(" -s --starting-word: Sets the starting word for the search, otherwise program will start from first word ('aaaa', etc.)\n");
 
@@ -67,7 +67,7 @@ int main(int argc, const char * argv[]) {
                 cracker.minLen = 5;
             
             if (cracker.maxLen == 0)
-                cracker.maxLen = 10;
+                cracker.maxLen = 15;
             
             if (cracker.charset == nil)
                 cracker.charset = @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*-";

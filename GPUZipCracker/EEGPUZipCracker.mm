@@ -36,6 +36,26 @@
     return gpuNames;
 }
 
+- (NSString *) wordFromIndex: (uint64_t) index
+{
+    char word[currentWordLen];
+    int i;
+    
+    for (i = currentWordLen - 1;
+         i >= 0;
+         i--)
+    {
+        word[i] = [_charset characterAtIndex: index % _charset.length];//_charset[index % _charset.length];
+        index /= _charset.length;
+    }
+    
+    word[currentWordLen] = 0;
+    
+    NSString *string =  [NSString stringWithUTF8String: word];
+    
+    return string;
+}
+
 - (bool) verifyCRC32UsingPassword: (NSString *) wordString
 {
     const char *word = [wordString UTF8String];
@@ -102,20 +122,18 @@
 {
     while (stillRunning)
     {
-        sleep(2);
-        
-        [bruteForcers[0] printCurrentIndexString: index];
+        sleep(60);
         
         double wordsPerSecond = (double) wordsTested / -[startTime timeIntervalSinceNow];
         
-        NSTimeInterval secondsLeft = (double) (totalPermutations - index) / wordsPerSecond;
+        NSTimeInterval secondsLeft = (double) (totalPermutationsForLen - index) / wordsPerSecond;
         
         // Get the system calendar
         NSCalendar *sysCalendar = [NSCalendar currentCalendar];
         
         // Create the NSDates
         NSDate *date1 = [NSDate date];
-        NSDate *date2 = [[NSDate alloc] initWithTimeInterval:secondsLeft sinceDate:date1];
+        NSDate *date2 = [[NSDate alloc] initWithTimeInterval:secondsLeft sinceDate: date1];
         
         // Get conversion to months, days, hours, minutes
         NSCalendarUnit unitFlags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit;
@@ -143,16 +161,74 @@
         else if ([breakdownInfo hour] == 0 && [breakdownInfo day] == 0 && [breakdownInfo month] == 0)
             [timeLeftString appendFormat: @"%i seconds.", [breakdownInfo second]];
         
-        printf("Tested %0.2f billion permutations (%.0fM/sec). %s\n", (float)wordsTested / 1000000000.0, wordsPerSecond / 1000000.0, [timeLeftString UTF8String]);
+        if (wordsTested >= pow(10, 12))
+            printf("Current word: %s | Tested %0.2fTH (%.0fMH/s). %s\n", [[self wordFromIndex: index] UTF8String], (float)wordsTested / pow(10, 12), wordsPerSecond / 1000000.0, [timeLeftString UTF8String]);
+        else
+            printf("Current word: %s | Tested %0.2fGH (%.0fMH/s). %s\n", [[self wordFromIndex: index] UTF8String], (float)wordsTested / pow(10, 9), wordsPerSecond / 1000000.0, [timeLeftString UTF8String]);
+    }
+}
+
+- (void) crackThreadUsingDevice: (id <MTLDevice>) device wordLen: (int) wordLen
+{
+    u_char bytesToMatch[] = { (u_char) (zipParser.last_mod_file_time >> 8), 0x50, 0x4b, 0x03, 0x04 };
+    
+    u_char inputBuffer[16];
+    
+    memcpy(inputBuffer, zipParser.encryption_header, 12);
+    memcpy(&inputBuffer[12], zipParser.encrypted_data, 4);
+    
+    EEGPUZipBruteforcerEngine *bruteForcer =  [[EEGPUZipBruteforcerEngine alloc] initWithDevice: device];
+    
+    [bruteForcer setCharset: _charset];
+    [bruteForcer setBytesToMatch: (u_char *) &bytesToMatch length: 5];
+    
+    [bruteForcer setEncryptedData: (u_char *) &inputBuffer length: 16];
+    
+    bruteForcer.commandPipelineDepth = _GPUCommandPipelineDepth;
+    
+    startTime = [NSDate date];
+    wordsTested = 0;
+    
+    
+    bruteForcer.wordLen = wordLen;
+    [bruteForcer setup];
+   
+    totalPermutationsForLen = pow(_charset.length, wordLen);
+    
+    uint64_t latestIndex = index.fetch_add(bruteForcer.iterationsPerRequest);
+    
+    while (latestIndex < totalPermutationsForLen)
+    {
+        @autoreleasepool {
+            [bruteForcer processPasswordPermutationsWithStartingIndex: latestIndex
+                                     completion:^(uint64_t iterationsExecuted, NSArray <NSString*> *matchedWords) {
+                                         // NOTE: This is only for performance measurements, so we only increment it when an actual command is completed...
+                                         wordsTested += iterationsExecuted;
+
+                                         if (matchedWords != nil && matchedWords.count > 0)
+                                         {
+                                             for (NSString *wordString in matchedWords)
+                                             {
+                                                 printf("Matched word '%s'\n", [wordString UTF8String]);
+                                                 
+                                                 if ( [self verifyCRC32UsingPassword: wordString] ) {
+                                                     printf("MATCHED and CONFIRMED password '%s'(on %s)!!\n", [wordString UTF8String], [device.name UTF8String]);
+                                                     stillRunning = NO;
+                                                     exit(1);
+                                                 }
+                                                 printf("Matched word '%s' failed CRC verification!\n", [wordString UTF8String]);
+                                             }
+                                         }
+                                     }];
+            
+            latestIndex = index.fetch_add(bruteForcer.iterationsPerRequest);
+        }
     }
 }
 
 - (bool) crack
 {
     stillRunning = YES;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self statPrintingThread];
-    });
     
     NSArray <id <MTLDevice>> *devices = MTLCopyAllDevices();
     
@@ -161,29 +237,10 @@
     
     bruteForcers = [NSMutableArray array];
     
-    u_char bytesToMatch[] = { (u_char) (zipParser.last_mod_file_time >> 8), 0x50, 0x4b, 0x03, 0x04 };
-    
-    u_char inputBuffer[16];
-    
-    memcpy(inputBuffer, zipParser.encryption_header, 12);
-    memcpy(&inputBuffer[12], zipParser.encrypted_data, 4);
-    
-    int i = 0;
-    for (id <MTLDevice> device in devices)
-    {
-        [bruteForcers addObject: [[EEGPUZipBruteforcerEngine alloc] initWithDevice: device]];
-        
-        [bruteForcers[i] setCharset: _charset];
-        [bruteForcers[i] setBytesToMatch: (u_char *) &bytesToMatch length: 5];
-        
-        [bruteForcers[i] setEncryptedData: (u_char *) &inputBuffer length: 16];
-        
-        bruteForcers[i].commandPipelineDepth = _GPUCommandPipelineDepth;
-        
-        i++;
-    }
-    
     uint64_t startingIndex = [self calculateStartingIndex];
+    
+    index = startingIndex;
+    
     NSUInteger startingLen = _minLen;
     
     if (_startingWord != nil)
@@ -200,57 +257,45 @@
         else
             totalPermutations += pow(_charset.length, wordLen);
     }
+    
+    uint64_t currentIndex = startingIndex;
+    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t queue = dispatch_queue_create("com.eldade.crackerqueue", DISPATCH_QUEUE_CONCURRENT);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self statPrintingThread];
+    });
+    
+    for (currentWordLen = startingLen; currentWordLen <= _maxLen; currentWordLen++)
+    {
+        for (id <MTLDevice> device in devices)
+        {
+            dispatch_group_async(group, queue, ^{
+                [self crackThreadUsingDevice: device wordLen: currentWordLen];
+            });
+        }
+        
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+        
+        printf("Completed all %d-length words.\n", currentWordLen);
+        
+        index = 0;
+        currentIndex = 0;
+        wordsTested = 0;
+    }
+
+    
+    
+    
+    
 
     startTime = [NSDate date];
     wordsTested = 0;
     
     index = startingIndex;
-
-    for (currentLen = startingLen; currentLen <= _maxLen; currentLen++)
-    {
-        uint32_t step = 1024*1024*bruteForcers[0].commandPipelineDepth;
-        uint64_t totalPermutationsForLen = pow(_charset.length, currentLen);
-        
-        for (EEGPUZipBruteforcerEngine *bruteForcer in bruteForcers)
-            bruteForcer.wordLen = currentLen;
-        
-        if (currentLen == startingLen && startingLen != _minLen)
-        {
-            index = startingIndex;
-            [bruteForcers[0] printCurrentIndexString: index];
-        }
-        
-        while (index < totalPermutationsForLen)
-        {
-            for (int i = 0; i < devices.count; i ++)
-            {
-                [bruteForcers[i] processPasswordPermutations: step startingIndex: index completion:^(NSArray <NSString*> *matchedWords) {
-                    if (matchedWords != nil && matchedWords.count > 0)
-                    {
-                        for (NSString *wordString in matchedWords)
-                        {
-                            printf("Matched word '%s'\n", [wordString UTF8String]);
-
-                            if ( [self verifyCRC32UsingPassword: wordString] ) {
-                                printf("MATCHED and CONFIRMED password '%s'!!\n", [wordString UTF8String]);
-                                stillRunning = NO;
-                                exit(1);
-                            }
-                            printf("Matched word '%s' failed CRC verification!\n", [wordString UTF8String]);
-                        }
-                    }
-                }];
-                index += step;
-                wordsTested += step;
-            }
-            
-
-        }
-        printf("Completed all %d-length permutations.\n", currentLen);
-        index = 0;
-    }
     
-    stillRunning = NO;
+    startingIndex = 0; // Set the startingIndex to zero
     
     return false;
 }

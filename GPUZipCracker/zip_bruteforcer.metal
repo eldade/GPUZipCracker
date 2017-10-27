@@ -34,6 +34,8 @@ struct Params
     uint32_t base_value_high;
 
     uint32_t charset_size;
+    
+    uint32_t init_key[3];
         
     atomic_uint match_count;
     uchar bytes_to_match[8];
@@ -79,7 +81,10 @@ void inline decrypt_and_check(thread uint3 key, decodedUnion decoded, constant c
 #define MAKE_WORD_CHAR(i)     word[(i)] = charset[value % charset_size]; \
                               value /= charset_size;
 
-kernel void generate_word_and_test_10len(
+constant int word_len [[function_constant(0)]];
+constant int starting_index [[function_constant(1)]];
+
+kernel void generate_word_and_test(
                                         uint2 pig                                    [[ thread_position_in_grid ]],
                                         device Params *params                         [[ buffer(0) ]],
                                         constant uchar *charset                         [[ buffer(1) ]],
@@ -92,165 +97,20 @@ kernel void generate_word_and_test_10len(
     
     thread decodedUnion decoded;
     
-    thread char word[10];
+    thread char word[64];
     
-    MAKE_WORD_CHAR(9) MAKE_WORD_CHAR(8)
-    MAKE_WORD_CHAR(7) MAKE_WORD_CHAR(6) MAKE_WORD_CHAR(5) MAKE_WORD_CHAR(4)
-    MAKE_WORD_CHAR(3) MAKE_WORD_CHAR(2) MAKE_WORD_CHAR(1) MAKE_WORD_CHAR(0)
-    
-    // 1) Initialize the three 32-bit keys with the password.
-    thread uint3 key = uint3( 0x12345678, 0x23456789, 0x34567890 );
-    
-    UPDATE_KEYS(key, word[0]);  UPDATE_KEYS(key, word[1]);
-    UPDATE_KEYS(key, word[2]);  UPDATE_KEYS(key, word[3]);
-    UPDATE_KEYS(key, word[4]);  UPDATE_KEYS(key, word[5]);
-    UPDATE_KEYS(key, word[6]);  UPDATE_KEYS(key, word[7]);
-    UPDATE_KEYS(key, word[8]);  UPDATE_KEYS(key, word[9]);
-    
-    decrypt_and_check(key, decoded, data, params, position);
-}
-
-kernel void generate_word_and_test_9len(
-                                        uint2 pig                                    [[ thread_position_in_grid ]],
-                                        device Params *params                         [[ buffer(0) ]],
-                                        constant uchar *charset                         [[ buffer(1) ]],
-                                        constant char *data                          [[ buffer(2)]]
-                                        )
-{
-    uint position = pig.x;
-    size_t value = ((size_t) params->base_value_high << 32) + params->base_value_low + position;
-    uchar charset_size = params->charset_size;
-    
-    thread decodedUnion decoded;
-    
-    thread char word[9];
-    
-    MAKE_WORD_CHAR(8)
-    MAKE_WORD_CHAR(7) MAKE_WORD_CHAR(6) MAKE_WORD_CHAR(5) MAKE_WORD_CHAR(4)
-    MAKE_WORD_CHAR(3) MAKE_WORD_CHAR(2) MAKE_WORD_CHAR(1) MAKE_WORD_CHAR(0)
+    for (int i = word_len - 1; i >= starting_index; i --)
+    {
+        MAKE_WORD_CHAR(i)
+    }
     
     // 1) Initialize the three 32-bit keys with the password.
-    thread uint3 key = uint3( 0x12345678, 0x23456789, 0x34567890 );
+    thread uint3 key = uint3( params->init_key[0], params->init_key[1], params->init_key[2] );
     
-    UPDATE_KEYS(key, word[0]);  UPDATE_KEYS(key, word[1]);
-    UPDATE_KEYS(key, word[2]);  UPDATE_KEYS(key, word[3]);
-    UPDATE_KEYS(key, word[4]);  UPDATE_KEYS(key, word[5]);
-    UPDATE_KEYS(key, word[6]);  UPDATE_KEYS(key, word[7]);
-    UPDATE_KEYS(key, word[8]);
-    
-    decrypt_and_check(key, decoded, data, params, position);
-}
-
-kernel void generate_word_and_test_8len(
-                                  uint2 pig                                    [[ thread_position_in_grid ]],
-                                        device Params *params                         [[ buffer(0) ]],
-                                    constant uchar *charset                         [[ buffer(1) ]],
-                                        constant char *data                          [[ buffer(2)]]
-                                  )
-{
-    uint position = pig.x;
-    size_t value = ((size_t) params->base_value_high << 32) + params->base_value_low + position;
-    uchar charset_size = params->charset_size;
-    
-    thread decodedUnion decoded;
-    
-    thread char word[8];
-    
-    MAKE_WORD_CHAR(7) MAKE_WORD_CHAR(6) MAKE_WORD_CHAR(5) MAKE_WORD_CHAR(4)
-    MAKE_WORD_CHAR(3) MAKE_WORD_CHAR(2) MAKE_WORD_CHAR(1) MAKE_WORD_CHAR(0)
-    
-    // 1) Initialize the three 32-bit keys with the password.
-    thread uint3 key = uint3( 0x12345678, 0x23456789, 0x34567890 );
-    
-    UPDATE_KEYS(key, word[0]);  UPDATE_KEYS(key, word[1]);
-    UPDATE_KEYS(key, word[2]);  UPDATE_KEYS(key, word[3]);
-    UPDATE_KEYS(key, word[4]);  UPDATE_KEYS(key, word[5]);
-    UPDATE_KEYS(key, word[6]);  UPDATE_KEYS(key, word[7]);
-    
-    decrypt_and_check(key, decoded, data, params, position);
-}
-
-kernel void generate_word_and_test_7len(
-                                        uint2 pig                                    [[ thread_position_in_grid ]],
-                                        device Params *params                         [[ buffer(0) ]],
-                                        constant uchar *charset                         [[ buffer(1) ]],
-                                        constant char *data                          [[ buffer(2)]]
-                                        )
-{
-    uint position = pig.x;
-    size_t value = ((size_t) params->base_value_high << 32) + params->base_value_low + position;
-    uchar charset_size = params->charset_size;
-    
-    thread decodedUnion decoded;
-    
-    thread char word[7];
-    
-    MAKE_WORD_CHAR(6) MAKE_WORD_CHAR(5) MAKE_WORD_CHAR(4)
-    MAKE_WORD_CHAR(3) MAKE_WORD_CHAR(2) MAKE_WORD_CHAR(1) MAKE_WORD_CHAR(0)
-    
-    // 1) Initialize the three 32-bit keys with the password.
-    thread uint3 key = uint3( 0x12345678, 0x23456789, 0x34567890 );
-    
-    UPDATE_KEYS(key, word[0]);  UPDATE_KEYS(key, word[1]);
-    UPDATE_KEYS(key, word[2]);  UPDATE_KEYS(key, word[3]);
-    UPDATE_KEYS(key, word[4]);  UPDATE_KEYS(key, word[5]);
-    UPDATE_KEYS(key, word[6]);
-    
-    decrypt_and_check(key, decoded, data, params, position);
-}
-
-kernel void generate_word_and_test_6len(
-                                        uint2 pig                                    [[ thread_position_in_grid ]],
-                                        device Params *params                         [[ buffer(0) ]],
-                                        constant uchar *charset                         [[ buffer(1) ]],
-                                        constant char *data                          [[ buffer(2)]]
-                                        )
-{
-    uint position = pig.x;
-    size_t value = ((size_t) params->base_value_high << 32) + params->base_value_low + position;
-    uchar charset_size = params->charset_size;
-    
-    thread decodedUnion decoded;
-    
-    thread char word[6];
-    
-    MAKE_WORD_CHAR(5) MAKE_WORD_CHAR(4)
-    MAKE_WORD_CHAR(3) MAKE_WORD_CHAR(2) MAKE_WORD_CHAR(1) MAKE_WORD_CHAR(0)
-    
-    // 1) Initialize the three 32-bit keys with the password.
-    thread uint3 key = uint3( 0x12345678, 0x23456789, 0x34567890 );
-    
-    UPDATE_KEYS(key, word[0]);  UPDATE_KEYS(key, word[1]);
-    UPDATE_KEYS(key, word[2]);  UPDATE_KEYS(key, word[3]);
-    UPDATE_KEYS(key, word[4]);  UPDATE_KEYS(key, word[5]);
-    
-    decrypt_and_check(key, decoded, data, params, position);
-}
-
-kernel void generate_word_and_test_5len(
-                                        uint2 pig                                    [[ thread_position_in_grid ]],
-                                        device Params *params                         [[ buffer(0) ]],
-                                        constant uchar *charset                         [[ buffer(1) ]],
-                                        constant char *data                          [[ buffer(2)]]
-                                        )
-{
-    uint position = pig.x;
-    size_t value = ((size_t) params->base_value_high << 32) + params->base_value_low + position;
-    uchar charset_size = params->charset_size;
-    
-    thread decodedUnion decoded;
-    
-    thread char word[5];
-    
-    MAKE_WORD_CHAR(4)
-    MAKE_WORD_CHAR(3) MAKE_WORD_CHAR(2) MAKE_WORD_CHAR(1) MAKE_WORD_CHAR(0)
-    
-    // 1) Initialize the three 32-bit keys with the password.
-    thread uint3 key = uint3( 0x12345678, 0x23456789, 0x34567890 );
-    
-    UPDATE_KEYS(key, word[0]);  UPDATE_KEYS(key, word[1]);
-    UPDATE_KEYS(key, word[2]);  UPDATE_KEYS(key, word[3]);
-    UPDATE_KEYS(key, word[4]);
+    for (int i = starting_index; i < word_len; i ++)
+    {
+        UPDATE_KEYS(key, word[i]);
+    }
     
     decrypt_and_check(key, decoded, data, params, position);
 }

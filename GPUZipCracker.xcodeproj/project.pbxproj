@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m */; };
+		511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcerEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.mm */; };
 		511BAA971F9AD992001A0C83 /* crc32_table.metal in Sources */ = {isa = PBXBuildFile; fileRef = 511BAA961F9AD992001A0C83 /* crc32_table.metal */; };
 		51BD1F551F8E825400981677 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51BD1F541F8E825400981677 /* Metal.framework */; };
 		51BD1F571F8E829D00981677 /* zip_bruteforcer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 51BD1F561F8E829D00981677 /* zip_bruteforcer.metal */; };
@@ -79,7 +79,7 @@
 
 /* Begin PBXFileReference section */
 		511BAA7B1F985191001A0C83 /* EEGPUZipBruteforcerEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EEGPUZipBruteforcerEngine.h; sourceTree = "<group>"; };
-		511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EEGPUZipBruteforcerEngine.m; sourceTree = "<group>"; };
+		511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EEGPUZipBruteforcerEngine.mm; sourceTree = "<group>"; };
 		511BAA961F9AD992001A0C83 /* crc32_table.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = crc32_table.metal; sourceTree = "<group>"; };
 		51BD1F241F8D784100981677 /* GPUZipCracker */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GPUZipCracker; sourceTree = BUILT_PRODUCTS_DIR; };
 		51BD1F271F8D784100981677 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				511BAA7B1F985191001A0C83 /* EEGPUZipBruteforcerEngine.h */,
-				511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m */,
+				511BAA7C1F985191001A0C83 /* EEGPUZipBruteforcerEngine.mm */,
 				51CFDECE1F9D33AE0004C59B /* EEGPUZipCracker.h */,
 				51CFDECF1F9D33AE0004C59B /* EEGPUZipCracker.mm */,
 				51CFDED41F9D4F850004C59B /* EEZipParser.h */,
@@ -287,7 +287,7 @@
 				51CFDED01F9D33AE0004C59B /* EEGPUZipCracker.mm in Sources */,
 				51CFDECC1F9D22570004C59B /* main.mm in Sources */,
 				51BD1F571F8E829D00981677 /* zip_bruteforcer.metal in Sources */,
-				511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcerEngine.m in Sources */,
+				511BAA7D1F985191001A0C83 /* EEGPUZipBruteforcerEngine.mm in Sources */,
 				51CFDED31F9D474C0004C59B /* cpuDecryptEngine.cpp in Sources */,
 				51CFDED61F9D4F850004C59B /* EEZipParser.mm in Sources */,
 				511BAA971F9AD992001A0C83 /* crc32_table.metal in Sources */,
@@ -408,6 +408,7 @@
 		51BD1F2C1F8D784100981677 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/ArgumentParser/ArgumentParser";
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -420,6 +421,7 @@
 		51BD1F2D1F8D784100981677 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/ArgumentParser/ArgumentParser";
 				GCC_OPTIMIZATION_LEVEL = s;
