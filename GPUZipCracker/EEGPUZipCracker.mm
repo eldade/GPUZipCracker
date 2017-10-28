@@ -187,8 +187,6 @@
     bruteForcer.commandPipelineDepth = _GPUCommandPipelineDepth;
     
     startTime = [NSDate date];
-    wordsTested = 0;
-    
     
     bruteForcer.wordLen = wordLen;
     [bruteForcer setup];
@@ -282,21 +280,8 @@
         
         index = 0;
         currentIndex = 0;
-        wordsTested = 0;
     }
 
-    
-    
-    
-    
-
-    startTime = [NSDate date];
-    wordsTested = 0;
-    
-    index = startingIndex;
-    
-    startingIndex = 0; // Set the startingIndex to zero
-    
     return false;
 }
 

@@ -142,6 +142,8 @@
 
     [commandBuffer addCompletedHandler:^(id<MTLCommandBuffer> _Nonnull commandBuffer) {
             Params * outputParams = (Params *) paramsBuffer.contents;
+        
+        assert(outputParams != nil);
 
         NSMutableArray<NSString *> *matchedWords = nil;
 
