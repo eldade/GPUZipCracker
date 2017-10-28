@@ -41,6 +41,11 @@ Runtime using these settings and the provided file should be anywhere from 10-30
 
 The program actually supports several command-line options including selecting which GPU to use, specifying a character set, minimum and maximum word lengths, and even starting from a specific word if 'lower' words have already been eliminated (meaning, words lower in the alphabet for the specified character set).
 
+## Areas for Improvement
+To make this program truly useful, we'd need to add support for other encrypted file formats, along with a few bytes of known plaintext from their header. No doubt JPG, PNG, EXE, DLL, and many other file formats easily fit the bill. Once you have that, the program could automatically look for a known file format and try decrypting that file using the known plaintext bytes.
+
+The other requirement to making this truly useful is adding support for compressed archives, though it is not clear how efficient the search for the hash can be for those archives.
+
 ## Alternatives
 This is not intended as a professional password cracking tool by any means. It is a proof of concept I developed while learning the Metal API. If you're looking for a high-performance GPU-accelerated password bruteforcing tool, take a look at [hashcat](https://github.com/hashcat/hashcat).
 
