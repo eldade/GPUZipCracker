@@ -29,9 +29,9 @@ This means that for each bruteforcing iteration we need to do the following:
 The program uses a Metal-API based compute shader to bruteforce the password. It is set up to simultaneously utilize all available GPUs on a given system, but you can pick a single GPU from the command line if you wish.
 Real-world performance seems to be at least 1-2 orders of magnitude faster than what you can expect with a nice Intel CPU. I've tested this on several Macs and performance was very promising.
 
-For example, on a 2013 Mac Pro, the program was able to test approximately 1.6 billion hashes per second. The same machine was only able to achieve approximately 28 million permutations per second when running on all 8 cores of that same system.
+For example, on a 2013 Mac Pro, the program had a throughput of ~1.7B hashes per second (running concurrently on both GPUs). The same machine was only able to achieve ~28 million hashes per second when running on all 8 cores.
 
-On a 2017 15" MacBook Pro, the program was able to test approximately 550 million hashes per second (running concurrently on both the Intel *and* AMD GPUs).
+On a 2017 15" MacBook Pro, the program had a throughput of ~550M hashes per second (running concurrently on both the Intel *and* AMD GPUs).
 
 ## Usage
 To try it out, download the code, build the program using Xcode, and launch it with the provided test file:
