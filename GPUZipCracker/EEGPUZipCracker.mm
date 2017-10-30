@@ -128,44 +128,51 @@
         
         NSTimeInterval secondsLeft = (double) (totalPermutationsForLen - index) / wordsPerSecond;
         
-        // Get the system calendar
-        NSCalendar *sysCalendar = [NSCalendar currentCalendar];
+        NSMutableString *timeLeftString = [NSMutableString stringWithString: @"Time remaining: "];
         
-        // Create the NSDates
-        NSDate *date1 = [NSDate date];
-        NSDate *date2 = [[NSDate alloc] initWithTimeInterval:secondsLeft sinceDate: date1];
-        
-        // Get conversion to months, days, hours, minutes
-        NSCalendarUnit unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-        
-        NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:date1  toDate:date2  options:0];
-        
-        NSMutableString *timeLeftString = [NSMutableString string];
-        
-        [timeLeftString appendString:@"Time remaining: "];
-        
-        if ([breakdownInfo year] > 0)
-            [timeLeftString appendFormat: @"%li years, ", (long)[breakdownInfo year]];
-        
-        if ([breakdownInfo month] > 0)
-            [timeLeftString appendFormat: @"%li months, ", (long)[breakdownInfo month]];
-        
-        if ([breakdownInfo day] > 0)
-            [timeLeftString appendFormat: @"%li days, ", (long)[breakdownInfo day]];
-        
-        if ([breakdownInfo hour] > 0)
-            [timeLeftString appendFormat: @"%li hours, ", (long)[breakdownInfo hour]];
-        
-        if ([breakdownInfo minute] > 0)
-            [timeLeftString appendFormat: @"%li minutes.", (long)[breakdownInfo minute]];
-        else if ([breakdownInfo hour] == 0 && [breakdownInfo day] == 0 && [breakdownInfo month] == 0)
-            [timeLeftString appendFormat: @"%li seconds.", (long)[breakdownInfo second]];
+        [timeLeftString appendString: [self timeStringForLongPeriods: secondsLeft]];
         
         if (wordsTested >= pow(10, 12))
             printf("Current word: %s | Tested %0.2fTH (%.0fMH/s). %s\n", [[self wordFromIndex: index] UTF8String], (float)wordsTested / pow(10, 12), wordsPerSecond / 1000000.0, [timeLeftString UTF8String]);
         else
             printf("Current word: %s | Tested %0.2fGH (%.0fMH/s). %s\n", [[self wordFromIndex: index] UTF8String], (float)wordsTested / pow(10, 9), wordsPerSecond / 1000000.0, [timeLeftString UTF8String]);
     }
+}
+
+- (NSString *) timeStringForLongPeriods: (NSTimeInterval) timeInterval
+{
+    // Get the system calendar
+    NSCalendar *sysCalendar = [NSCalendar currentCalendar];
+    
+    // Create the NSDates
+    NSDate *date1 = [NSDate date];
+    NSDate *date2 = [[NSDate alloc] initWithTimeInterval:timeInterval sinceDate: date1];
+    
+    // Get conversion to months, days, hours, minutes
+    NSCalendarUnit unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    
+    NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:date1  toDate:date2  options:0];
+    
+    NSMutableString *timeString = [NSMutableString string];
+    
+    if ([breakdownInfo year] > 0)
+        [timeString appendFormat: @"%li years, ", (long)[breakdownInfo year]];
+    
+    if ([breakdownInfo month] > 0)
+        [timeString appendFormat: @"%li months, ", (long)[breakdownInfo month]];
+    
+    if ([breakdownInfo day] > 0)
+        [timeString appendFormat: @"%li days, ", (long)[breakdownInfo day]];
+    
+    if ([breakdownInfo hour] > 0)
+        [timeString appendFormat: @"%li hours, ", (long)[breakdownInfo hour]];
+    
+    if ([breakdownInfo minute] > 0)
+        [timeString appendFormat: @"%li minutes.", (long)[breakdownInfo minute]];
+    else if ([breakdownInfo hour] == 0 && [breakdownInfo day] == 0 && [breakdownInfo month] == 0)
+        [timeString appendFormat: @"%li seconds.", (long)[breakdownInfo second]];
+    
+    return timeString;
 }
 
 - (void) crackThreadUsingDevice: (id <MTLDevice>) device wordLen: (int) wordLen
@@ -196,7 +203,8 @@
         @autoreleasepool {
             [bruteForcer processPasswordPermutationsWithStartingIndex: latestIndex
                                      completion:^(uint64_t iterationsExecuted, NSArray <NSString*> *matchedWords) {
-                                         // NOTE: This is only for performance measurements, so we only increment it when an actual command is completed...
+                                         // NOTE: Increment this when an actual command is completed to ensure UI presents the proper
+                                         // processing rate:
                                          wordsTested += iterationsExecuted;
 
                                          if (matchedWords != nil && matchedWords.count > 0)
@@ -206,7 +214,8 @@
                                                  printf("Matched word '%s'\n", [wordString UTF8String]);
                                                  
                                                  if ( [self verifyCRC32UsingPassword: wordString] ) {
-                                                     printf("MATCHED and CONFIRMED password '%s'(on %s)!!\n", [wordString UTF8String], [device.name UTF8String]);
+                                                     printf("MATCHED and CONFIRMED password '%s' (matched by '%s')!!\n", [wordString UTF8String], [device.name UTF8String]);
+                                                     printf ("Search took %s\n", [[self timeStringForLongPeriods: -[startTime timeIntervalSinceNow]] UTF8String]);
                                                      stillRunning = NO;
                                                      exit(1);
                                                  }
