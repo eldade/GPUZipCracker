@@ -1,7 +1,7 @@
 ##  GPUZipCracker
 *A fast GPU-based password brute-forcing tool for ZIP archives (for macOS)*
 
-Years ago, when I wanted to store files with a reasonable amount of security/privacy, I used to use encrypted ZIP archives to store files. The problem was that ZIP archives don't actually encrypt their directory, so the metadata was stored in plaintext. If you wanted to hide filenames, folder names, etc., you had to first put everything into one ZIP archive, then store that single archive into another, encrypted ZIP file.
+Years ago, when I wanted to store files with a reasonable amount of security/privacy, I would use encrypted ZIP archives to store files. The problem was that ZIP archives don't actually encrypt their directory, so the metadata was stored in plaintext. If you wanted to hide filenames, folder names, etc., you had to first put everything into one ZIP archive, then store that single archive into another, encrypted ZIP file.
 
 Unsurprisingly, after over 15 years many of the passwords to those archives are now long forgotten, and so cracking them somehow became interesting.
 
