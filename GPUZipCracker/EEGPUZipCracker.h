@@ -31,6 +31,7 @@
     uint32_t currentWordLen;
     
     BOOL stillRunning;
+    BOOL matchFound;
 }
 
 @property NSString *charset;
@@ -44,7 +45,7 @@
 
 - (instancetype) initWithFilename: (NSString *) filename;
 
-- (bool) crack;
+- (int) crack;
 - (uint64_t) startingIndexFromWord: (NSString *) startingWord;
 
 + (NSArray<NSString *>*) getAllGPUNames;

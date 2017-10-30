@@ -99,9 +99,9 @@ int main(int argc, const char * argv[]) {
             else
                 printf("Using all available GPUs.\n");
 
-            [cracker crack];
+            return [cracker crack];
         }
         
     }
-    return 0;
+    return 1;
 }

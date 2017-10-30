@@ -211,27 +211,32 @@
                                          {
                                              for (NSString *wordString in matchedWords)
                                              {
-                                                 printf("Matched word '%s'\n", [wordString UTF8String]);
+                                                 printf("GPU identified a potential match '%s'. Verifying CRC32...\n", [wordString UTF8String]);
                                                  
                                                  if ( [self verifyCRC32UsingPassword: wordString] ) {
                                                      printf("MATCHED and CONFIRMED password '%s' (matched by '%s')!!\n", [wordString UTF8String], [device.name UTF8String]);
                                                      printf ("Search took %s\n", [[self timeStringForLongPeriods: -[startTime timeIntervalSinceNow]] UTF8String]);
                                                      stillRunning = NO;
-                                                     exit(1);
+                                                     matchFound = YES;
+                                                     return;
                                                  }
-                                                 printf("Matched word '%s' failed CRC verification!\n", [wordString UTF8String]);
+                                                 printf("'%s' failed CRC32 verification. Continuing.\n", [wordString UTF8String]);
                                              }
                                          }
                                      }];
+            
+            if (stillRunning == NO)
+                return;
             
             latestIndex = index.fetch_add(bruteForcer.iterationsPerRequest);
         }
     }
 }
 
-- (bool) crack
+- (int) crack
 {
     stillRunning = YES;
+    matchFound = NO;
     
     NSArray <id <MTLDevice>> *devices = MTLCopyAllDevices();
     
@@ -285,13 +290,18 @@
         
         dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
         
+        if (stillRunning == NO && matchFound == YES)
+        {
+            return 0;
+        }
+        
         printf("Completed all %d-character words.\n", currentWordLen);
         
         index = 0;
         currentIndex = 0;
     }
 
-    return false;
+    return 1;
 }
 
 - (instancetype) initWithFilename: (NSString *) filename
