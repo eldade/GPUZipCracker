@@ -136,7 +136,7 @@
         NSDate *date2 = [[NSDate alloc] initWithTimeInterval:secondsLeft sinceDate: date1];
         
         // Get conversion to months, days, hours, minutes
-        NSCalendarUnit unitFlags = NSHourCalendarUnit | NSMinuteCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit;
+        NSCalendarUnit unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
         
         NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:date1  toDate:date2  options:0];
         
@@ -145,21 +145,21 @@
         [timeLeftString appendString:@"Time remaining: "];
         
         if ([breakdownInfo year] > 0)
-            [timeLeftString appendFormat: @"%i years, ", [breakdownInfo year]];
+            [timeLeftString appendFormat: @"%li years, ", (long)[breakdownInfo year]];
         
         if ([breakdownInfo month] > 0)
-            [timeLeftString appendFormat: @"%i months, ", [breakdownInfo month]];
+            [timeLeftString appendFormat: @"%li months, ", (long)[breakdownInfo month]];
         
         if ([breakdownInfo day] > 0)
-            [timeLeftString appendFormat: @"%i days, ", [breakdownInfo day]];
+            [timeLeftString appendFormat: @"%li days, ", (long)[breakdownInfo day]];
         
         if ([breakdownInfo hour] > 0)
-            [timeLeftString appendFormat: @"%i hours, ", [breakdownInfo hour]];
+            [timeLeftString appendFormat: @"%li hours, ", (long)[breakdownInfo hour]];
         
         if ([breakdownInfo minute] > 0)
-            [timeLeftString appendFormat: @"%i minutes.", [breakdownInfo minute]];
+            [timeLeftString appendFormat: @"%li minutes.", (long)[breakdownInfo minute]];
         else if ([breakdownInfo hour] == 0 && [breakdownInfo day] == 0 && [breakdownInfo month] == 0)
-            [timeLeftString appendFormat: @"%i seconds.", [breakdownInfo second]];
+            [timeLeftString appendFormat: @"%li seconds.", (long)[breakdownInfo second]];
         
         if (wordsTested >= pow(10, 12))
             printf("Current word: %s | Tested %0.2fTH (%.0fMH/s). %s\n", [[self wordFromIndex: index] UTF8String], (float)wordsTested / pow(10, 12), wordsPerSecond / 1000000.0, [timeLeftString UTF8String]);
@@ -186,12 +186,8 @@
     
     bruteForcer.commandPipelineDepth = _GPUCommandPipelineDepth;
     
-    startTime = [NSDate date];
-    
     bruteForcer.wordLen = wordLen;
     [bruteForcer setup];
-   
-    totalPermutationsForLen = pow(_charset.length, wordLen);
     
     uint64_t latestIndex = index.fetch_add(bruteForcer.iterationsPerRequest);
     
@@ -241,6 +237,8 @@
     
     NSUInteger startingLen = _minLen;
     
+    startTime = [NSDate date];
+    
     if (_startingWord != nil)
         startingLen = _startingWord.length;
     
@@ -267,6 +265,8 @@
     
     for (currentWordLen = startingLen; currentWordLen <= _maxLen; currentWordLen++)
     {
+        totalPermutationsForLen = pow(_charset.length, currentWordLen);
+
         for (id <MTLDevice> device in devices)
         {
             dispatch_group_async(group, queue, ^{

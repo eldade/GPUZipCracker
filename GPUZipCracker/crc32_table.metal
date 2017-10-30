@@ -3,10 +3,6 @@
 #include <metal_stdlib>
 using namespace metal;
 
-/*!
- * \var pcrc_32_tab
- * \brief Table of CRC-32's of all single-byte values.
- */
 extern constant uint32_t pcrc_32_tab[256] =
     {
         0x00000000,0x77073096,0xee0e612c,0x990951ba,0x076dc419,0x706af48f,0xe963a535,0x9e6495a3,
