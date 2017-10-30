@@ -285,7 +285,7 @@
         
         dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
         
-        printf("Completed all %d-length words.\n", currentWordLen);
+        printf("Completed all %d-character words.\n", currentWordLen);
         
         index = 0;
         currentIndex = 0;
