@@ -42,7 +42,7 @@ struct Params
     uchar bytes_to_match[8];
 
 
-    uint32_t match_positions[1024];
+    uint32_t match_positions[8];
 };
 
 union key_type
@@ -114,7 +114,8 @@ kernel void generate_word_and_test(
                                         )
 {
     uint position = pig.x;
-    size_t value = ((size_t) params->base_value_high << 32) + params->base_value_low + position;
+    size_t value = *(device size_t *) &params->base_value_low + position;
+    
     uchar charset_size = params->charset_size;
     
     thread decodedUnion decoded;

@@ -23,7 +23,7 @@ typedef struct Params
     uint match_count;
     u_char bytes_to_match[8];
     
-    uint32_t match_positions[1024];
+    uint32_t match_positions[8];
 } Params;
 
 @interface EEGPUZipBruteforcerEngine : NSObject
